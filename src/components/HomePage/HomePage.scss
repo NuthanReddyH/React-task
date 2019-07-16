@@ -1,0 +1,31 @@
+.some-page-wrapper {
+    margin: 15px;
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .column-left {
+    display: flex;
+    flex-direction: column;
+    width: 80%
+  }
+  .column-right {
+    display: flex;
+    flex-direction: column;
+    width: 20%
+  }
+  
+  .blue-column {
+    
+    height: 100px;
+  }
+  .cardDetails {
+    margin: 1rem;
+  }
+  
+  
