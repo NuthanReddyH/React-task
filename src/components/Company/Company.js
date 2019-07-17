@@ -9,36 +9,50 @@ import {
   Button
 } from "reactstrap";
 import "./Company.scss";
-import { connect } from "react-redux";
-import { addNewCompany } from "../../actions/actions.js";
 
 class Company extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      companyName: "",
-      address: "",
-      revenue: "",
-      phone: ""
+      newCompany: {
+        companyName: "",
+        address: "",
+        revenue: "",
+        phone: ""
+      },
+      
+      companies: [],
+      employes: []
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
-  onFormSubmit() {
-    let companyData = { ...this.state };
-    console.log(companyData);
-    this.props.addNewCompany(companyData);
+  onFormSubmit(e) {
+    e.preventDefault();
+    let companies = [...this.state.companies];
+    companies.push(this.state.newCompany);
+    this.setState({
+      companies: companies
+    });
+    this.setState({
+      newCompany: {
+        companyName: "",
+        address: "",
+        revenue: "",
+        phone: ""
+      }
+    })
+    console.log(companies);
   }
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      newCompany : {...this.state.newCompany,[e.target.name]: e.target.value} 
     });
-    //this.props.addNewCompany(e.target.name, e.target.value);
   };
+
   render() {
-    console.log(this.props);
-    const { companyName, address, revenue, phone } = this.state;
+    const { companyName, address, revenue, phone } = this.state.newCompany;
     return (
       <div className="ccontainer">
         <Card>
@@ -93,13 +107,5 @@ class Company extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  CompanyData: state.company
-});
-const mapDispatchToProps = {
-  addNewCompany
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Company);
+
+export default Company;

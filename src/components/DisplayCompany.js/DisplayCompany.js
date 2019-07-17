@@ -5,20 +5,21 @@ import {
   CardFooter, CardBody,
 } from "reactstrap";
 import { companyDetails } from '../../mock.js';
+import { Link } from 'react-router-dom'
 
 class DisplayCompany extends Component {
 
 renderCards() {
   return companyDetails.map((item,index) => {
         return (
-          <Card className="cardDetails">
+          <Card key={index} className="cardDetails">
                 <CardHeader>{item.companyName}</CardHeader>
                 <CardBody>
                       <label><strong>Address : </strong></label> {item.address} <br/>
                       <label><strong>Revnue : </strong></label> {item.revenue}<br/>
                       <label><strong>Phone : </strong></label> {item.phone}
                 </CardBody>
-                <CardFooter><a>Company Overview</a></CardFooter>
+                <CardFooter><Link  to={{ pathname: '/details', state: { ...item} }}>Company Overview</Link></CardFooter>
           </Card>
         )
   })
@@ -30,7 +31,7 @@ renderCards() {
       <div className="ccontainer">
         <Card>
             <CardHeader>Companies</CardHeader>
-            {this.renderCards()}
+           {this.renderCards()}
         </Card>
       </div>
     );

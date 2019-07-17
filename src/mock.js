@@ -18,3 +18,19 @@ export const companyDetails = [
         phone: '(122)-266-0000'
     }
 ]
+
+
+export const companyList = [
+    {
+        companyName: 'Google'
+    },
+    {
+        companyName: 'Amazon'
+    },
+    {
+        companyName: 'Epam'
+    },
+    {
+        companyName: 'Deloitte'
+    },
+]
