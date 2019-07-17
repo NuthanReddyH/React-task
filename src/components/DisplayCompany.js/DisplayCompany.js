@@ -4,13 +4,13 @@ import {
   CardHeader,
   CardFooter, CardBody,
 } from "reactstrap";
-import { companyDetails } from '../../mock.js';
 import { Link } from 'react-router-dom'
 
 class DisplayCompany extends Component {
 
 renderCards() {
-  return companyDetails.map((item,index) => {
+  console.log(this.props);
+  return this.props.companies.map((item,index) => {
         return (
           <Card key={index} className="cardDetails">
                 <CardHeader>{item.companyName}</CardHeader>
@@ -19,7 +19,7 @@ renderCards() {
                       <label><strong>Revnue : </strong></label> {item.revenue}<br/>
                       <label><strong>Phone : </strong></label> {item.phone}
                 </CardBody>
-                <CardFooter><Link  to={{ pathname: '/details', state: { ...item} }}>Company Overview</Link></CardFooter>
+                <CardFooter><Link  to={{ pathname: '/details', state: { company: item, employees: this.props.employees} }}>Company Overview</Link></CardFooter>
           </Card>
         )
   })
@@ -27,6 +27,10 @@ renderCards() {
 
 
   render() {
+    let message = "Currently there are no companies to display";
+  if(!this.props.companies ) {
+    return <div>{message}</div>
+  }
     return (
       <div className="ccontainer">
         <Card>

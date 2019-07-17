@@ -13,6 +13,8 @@ import {
   DropdownToggle
 } from "reactstrap";
 import "./Person.scss";
+import { connect } from 'react-redux';
+import { addNewPerson } from '../../actions/actions';
 
 class Person extends Component {
   constructor(props) {
@@ -21,22 +23,29 @@ class Person extends Component {
       loading: false,
       personName: "",
       personAddress: "",
-      companyName: "",
-      value: "Please Select",
+      
+      companyName: "Please Select",
       dropdownOpen: false
     };
+    this.PersonDetails = [];
+    this.companyName = "";
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   onFormSubmit(e) {
     e.preventDefault();
-    const { personName, personAddress, companyName } = this.state;
+    const { personName, personAddress , companyName} = this.state;
+  
+    console.log(this.companyName);
     let PersonDetails = { personName, personAddress, companyName };
-    console.log(PersonDetails);
+    let details = [...this.PersonDetails];
+    details.push(PersonDetails);
     this.setState({
       personName: "",
       personAddress: ""
     });
+    console.log(details);
+  this.props.addNewPerson(details);
   }
 
   toggle = () => {
@@ -48,7 +57,7 @@ class Person extends Component {
   select = event => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
-      value: event.target.innerText
+      companyName: event.target.innerText
     });
   };
 
@@ -59,12 +68,23 @@ class Person extends Component {
   };
 
   selectedEmployer = employer => {
-    this.setState({
-      companyName: employer
-    });
+    console.log("emp",employer);
+    this.companyName = employer;
+    
   };
 
+  dropdownList() {
+    if(!this.props.list) {
+      return null;
+    }
+  
+    return this.props.list.map((i) => {
+      return <DropdownItem onClick={this.select}>{i}</DropdownItem>
+    })
+  }
+
   render() {
+    console.log(this.props);
     return (
       <div className="ccontainer">
         <Card>
@@ -78,6 +98,7 @@ class Person extends Component {
                 id="personName"
                 value={this.state.personName}
                 onChange={this.handleChange}
+                disabled={this.props.disabled}
               />
             </FormGroup>
             <FormGroup>
@@ -88,6 +109,7 @@ class Person extends Component {
                 id="personAddress"
                 value={this.state.personAddress}
                 onChange={this.handleChange}
+                disabled={this.props.disabled}
               />
             </FormGroup>
 
@@ -98,15 +120,15 @@ class Person extends Component {
                 className="button-dropdown"
                 isOpen={this.state.dropdownOpen}
                 toggle={this.toggle}
+                disabled={this.props.disabled}
               >
-                <DropdownToggle caret>{this.state.value}</DropdownToggle>
+                <DropdownToggle caret>{this.state.companyName}</DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem onClick={this.select}>Google</DropdownItem>
-                  <DropdownItem onClick={this.select}>Epam</DropdownItem>
+                  {this.dropdownList()}
                 </DropdownMenu>
               </ButtonDropdown>
             </FormGroup>
-            <Button className="form-group" type="submit">
+            <Button className="form-group" type="submit" disabled={this.props.disabled}>
               Save
             </Button>
           </Form>
@@ -116,4 +138,16 @@ class Person extends Component {
   }
 }
 
-export default Person;
+
+const mapDispatchToProps = {
+  addNewPerson
+};
+
+const mapStateToProps = state => ({
+  personList: state.person.personList
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(Person);
+

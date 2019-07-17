@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { companyDetails } from '../../mock.js';
 import {
   Card,
   CardHeader,
@@ -10,8 +9,8 @@ import {
 class CompanyDetails extends Component {
 
 
-  renderCards() {
-    return companyDetails[0].employees.map((item,index) => {
+  renderCards(employeeList) {
+    return employeeList.map((item,index) => {
       return (
         <Card key={index} className="cardDetails">
               <CardHeader>{item.personName}</CardHeader>
@@ -26,21 +25,29 @@ class CompanyDetails extends Component {
 
   
   render() {
+    const { company, employees} = this.props.location.state;
+    let employeeList = [];
+
+    for (let i = 0; i< employees.length; i++) {
+      if( company.companyName === employees[i].companyName) {
+              employeeList.push(employees[i]);
+      }
+    }
     return (
       <div className="ccontainer">
         <Card>
             <CardHeader>Profile Overview</CardHeader>
             <CardBody>
-                      <label><strong>Address : </strong></label> {companyDetails[0].address} <br/>
-                      <label><strong>Revnue : </strong></label> {companyDetails[0].revenue}<br/>
-                      <label><strong>Phone : </strong></label> {companyDetails[0].phone} <br />
-                      <label><strong>No of Employees : </strong></label> {companyDetails[0].employees.length}
+                      <label><strong>Address : </strong></label> {company.address} <br/>
+                      <label><strong>Revnue : </strong></label> {company.revenue}<br/>
+                      <label><strong>Phone : </strong></label> {company.phone} <br />
+                      <label><strong>No of Employees : </strong></label> {employeeList.length}
                 </CardBody>
                 <CardFooter/>
         </Card>
         <Card>
             <CardHeader>Employees</CardHeader>
-           {this.renderCards()}
+           {this.renderCards(employeeList)}
         </Card>
       </div>
     );

@@ -3,19 +3,27 @@ import Company from "../Company/Company.js";
 import './HomePage.scss';
 import DisplayCompany from "../DisplayCompany.js/DisplayCompany.js";
 import Person from "../Person/Person.js";
+import { connect } from 'react-redux';
 
 class HomePage extends Component {
 
   render() {
+   
+    let disabled = !this.props.companyList;
+
+    const list = (this.props.companyList) && this.props.companyList.map((item,i) => {
+        return item.companyName;
+    });
+    console.log(list);
     return (
       <div className="some-page-wrapper">
         <div className="row">
           <div className="column-left">
-            <div className="blue-column"><DisplayCompany  /></div>
+            <div className="blue-column"><DisplayCompany  companies={this.props.companyList} employees={this.props.personList}/></div>
           </div>
           <div className="column-right">
             <div className="green-column"><Company /></div>
-            <div className="green-column"><Person /></div>
+            <div className="green-column"><Person disabled={disabled} list={list}/></div>
           </div>
         </div>
       </div>
@@ -23,4 +31,12 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+
+
+const mapStateToProps = state => ({
+  companyList: state.company.companyData,
+  personList: state.person.personList
+});
+
+export default connect(mapStateToProps)(HomePage);
+

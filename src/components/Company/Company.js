@@ -9,6 +9,8 @@ import {
   Button
 } from "reactstrap";
 import "./Company.scss";
+import { connect } from 'react-redux';
+import { addNewCompany } from '../../actions/actions';
 
 class Company extends Component {
   constructor(props) {
@@ -24,16 +26,15 @@ class Company extends Component {
       companies: [],
       employes: []
     };
+    this.companies = [];
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   onFormSubmit(e) {
     e.preventDefault();
-    let companies = [...this.state.companies];
+    let companies = [...this.companies];
     companies.push(this.state.newCompany);
-    this.setState({
-      companies: companies
-    });
+    this.companies = companies;
     this.setState({
       newCompany: {
         companyName: "",
@@ -42,7 +43,7 @@ class Company extends Component {
         phone: ""
       }
     })
-    console.log(companies);
+    this.props.addNewCompany(this.companies);
   }
 
   handleChange = e => {
@@ -52,6 +53,7 @@ class Company extends Component {
   };
 
   render() {
+    console.log("this.props",this.props.companyList);
     const { companyName, address, revenue, phone } = this.state.newCompany;
     return (
       <div className="ccontainer">
@@ -108,4 +110,14 @@ class Company extends Component {
   }
 }
 
-export default Company;
+const mapDispatchToProps = {
+  addNewCompany
+};
+
+const mapStateToProps = state => ({
+  companyList: state.company.companyData
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(Company);
