@@ -4,6 +4,7 @@ import {
   CardHeader,
   CardFooter, CardBody,
 } from "reactstrap";
+import './CompanyDetails.scss';
 
 
 class CompanyDetails extends Component {

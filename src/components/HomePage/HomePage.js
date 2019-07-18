@@ -3,13 +3,17 @@ import Company from "../Company/Company.js";
 import './HomePage.scss';
 import DisplayCompany from "../DisplayCompany.js/DisplayCompany.js";
 import Person from "../Person/Person.js";
+import { addNewCompany } from "../../actions/actions";
 import { connect } from 'react-redux';
 
 
 class HomePage extends Component {
 
+
+ 
+
   render() {
-   
+   console.log(this.props);
     let disabled = !this.props.companyList;
 
     const list = (this.props.companyList) && this.props.companyList.map((item,i) => {
@@ -31,11 +35,13 @@ class HomePage extends Component {
   }
 }
 
-
+const mapDispatchToProps = {
+  addNewCompany
+};
 
 const mapStateToProps = state => ({
   companyList: state.company.companyData,
 });
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
 

@@ -15,6 +15,8 @@ import {
 import "./Person.scss";
 import { connect } from 'react-redux';
 import { addNewPerson } from '../../actions/actions';
+import { Field, reduxForm } from "redux-form";
+import { validate } from './PersonValidation';
 
 class Person extends Component {
   constructor(props) {
@@ -29,21 +31,17 @@ class Person extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
-  onFormSubmit(e) {
-    e.preventDefault();
-    const { personName, personAddress , companyName} = this.state;
-    const { companyList } = this.props;
-    let PersonDetails = { personName, personAddress };
-    companyList.forEach((element) => { 
-        if(element.companyName === companyName) {
-          element.employees.push(PersonDetails);
+  onFormSubmit(values) {
+        this.props.companyList.forEach((element) => { 
+        if(element.companyName === this.state.companyName) {
+          element.employees.push(values);
         }
       });
+      this.props.reset();
       this.setState({
-        personName: "",
-        personAddress: "",
         companyName: "Please Select"
-      });
+      })
+
   }
 
   toggle = () => {
@@ -59,11 +57,11 @@ class Person extends Component {
     });
   };
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
+  // handleChange = e => {
+  //   this.setState({
+  //     [e.target.name]: e.target.value
+  //   });
+  // };
 
   
   dropdownList() {
@@ -78,31 +76,39 @@ class Person extends Component {
     return <DropdownMenu>{ddList}</DropdownMenu>;
   }
 
+  newField = ({ input, type, id, disabled, meta: { touched, error } }) => {
+    return (
+      <div>
+        <Input {...input} type={type} id={id} disabled={disabled} />
+        {touched && error && <p style={{ color: "red" }}>{error}</p>}
+      </div>
+    );
+  };
+
   render() {
+    const { handleSubmit, pristine, submitting } = this.props;
     return (
       <div className="ccontainer">
         <Card>
           <CardHeader>Create New Person</CardHeader>
-          <Form onSubmit={this.onFormSubmit}>
+          <Form onSubmit={handleSubmit(this.onFormSubmit)}>
             <FormGroup>
               <Label for="personName">Name</Label>
-              <Input
-                type="text"
+              <Field
                 name="personName"
+                type="text"
+                component={this.newField}
                 id="personName"
-                value={this.state.personName}
-                onChange={this.handleChange}
                 disabled={this.props.disabled}
               />
             </FormGroup>
             <FormGroup>
               <Label for="personAddress">Address</Label>
-              <Input
-                type="text"
+              <Field
                 name="personAddress"
+                type="text"
+                component={this.newField}
                 id="personAddress"
-                value={this.state.personAddress}
-                onChange={this.handleChange}
                 disabled={this.props.disabled}
               />
             </FormGroup>
@@ -121,7 +127,7 @@ class Person extends Component {
                
               </ButtonDropdown>
             </FormGroup>
-            <Button className="form-group" type="submit" disabled={this.props.disabled}>
+            <Button className="form-group" type="submit" disabled={this.props.disabled || pristine || submitting}>
               Save
             </Button>
           </Form>
@@ -131,10 +137,11 @@ class Person extends Component {
   }
 }
 
+const personReduxForm = reduxForm({
+  form: "personForm",
+  validate
+})(Person);
 
-const mapDispatchToProps = {
-  addNewPerson
-};
 
 const mapStateToProps = state => ({
   companyList: state.company.companyData
@@ -142,5 +149,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps)(Person);
+  )(personReduxForm);
 

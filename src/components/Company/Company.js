@@ -9,103 +9,107 @@ import {
   Button
 } from "reactstrap";
 import "./Company.scss";
-import { connect } from 'react-redux';
-import { addNewCompany } from '../../actions/actions';
+import { connect } from "react-redux";
+import { addNewCompany } from "../../actions/actions";
+import { Field, reduxForm } from "redux-form";
+import { validate } from './CompanyValidation';
 
 class Company extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      newCompany: {
-        companyName: "",
-        address: "",
-        revenue: "",
-        phone: "",
-        employees: []
-      },
-      
-      companies: [],
-      employes: []
-    };
-    this.companies = [];
-    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onFormSubmit(e) {
-    e.preventDefault();
-    let companies = [...this.companies];
-    companies.push(this.state.newCompany);
-    this.companies = companies;
-    this.setState({
-      newCompany: {
-        companyName: "",
-        address: "",
-        revenue: "",
-        phone: "",
-        employees: []
-      }
-    })
-    this.props.addNewCompany(this.companies);
-  }
+  // onFormSubmit(e) {
+  //   e.preventDefault();
+  //   let companies = [...this.companies];
+  //   companies.push(this.state.newCompany);
+  //   this.companies = companies;
+  //   this.setState({
+  //     newCompany: {
+  //       companyName: "",
+  //       address: "",
+  //       revenue: "",
+  //       phone: "",
+  //       employees: []
+  //     }
+  //   });
+  //   this.props.addNewCompany(this.companies);
+  // }
 
-  handleChange = e => {
-    this.setState({
-      newCompany : {...this.state.newCompany,[e.target.name]: e.target.value} 
-    });
+  // handleChange = e => {
+  //   this.setState({
+  //     newCompany: { ...this.state.newCompany, [e.target.name]: e.target.value }
+  //   });
+  // };
+
+
+  onSubmit(values) {
+    
+    let employees = [], companies= [];
+    if(this.props.companyList) {
+      companies = [...this.props.companyList];
+    }
+    values.employees = employees;
+    companies.push(values);
+    this.props.addNewCompany(companies);
+    this.props.reset();
+    
+  }
+  newField = ({ input, type, id, meta: { touched, error } }) => {
+    return (
+      <div>
+        <Input {...input} type={type} id={id} />
+        {touched && error && <p style={{ color: "red" }}>{error}</p>}
+      </div>
+    );
   };
 
   render() {
-    const { companyName, address, revenue, phone } = this.state.newCompany;
+    const { handleSubmit, pristine, submitting, companyList } = this.props;
+    console.log(companyList);
     return (
       <div className="ccontainer">
         <Card>
           <CardHeader>Create New Company</CardHeader>
-          <Form onSubmit={this.onFormSubmit}>
+          <Form onSubmit={handleSubmit(this.onSubmit)}>
             <FormGroup>
               <Label for="companyName">Name</Label>
-              <Input
-                type="text"
+              <Field
                 name="companyName"
+                type="text"
+                component={this.newField}
                 id="companyName"
-                value={companyName}
-                onChange={this.handleChange}
-                
               />
             </FormGroup>
             <FormGroup>
               <Label for="address">Address</Label>
-              <Input
-                type="text"
+              <Field
                 name="address"
+                type="text"
+                component={this.newField}
                 id="address"
-                value={address}
-                onChange={this.handleChange}
-                
               />
             </FormGroup>
             <FormGroup>
               <Label for="revenue">Revenue</Label>
-              <Input
-                type="number"
+              <Field
                 name="revenue"
+                type="number"
+                component={this.newField}
                 id="revenue"
-                value={revenue}
-                onChange={this.handleChange}
-                
               />
             </FormGroup>
             <FormGroup>
               <Label for="phone">Phone</Label>
-              <Input
-                type="text"
+              <Field
                 name="phone"
+                type="text"
+                component={this.newField}
                 id="phone"
-                value={phone}
-                onChange={this.handleChange}
-                
               />
             </FormGroup>
-            <Button className="form-group" type="submit">
+            <Button className="form-group" type="submit" disabled={pristine || submitting}>
               Save
             </Button>
           </Form>
@@ -114,6 +118,11 @@ class Company extends Component {
     );
   }
 }
+
+const companyReduxForm = reduxForm({
+  form: "companyForm",
+  validate
+})(Company);
 
 const mapDispatchToProps = {
   addNewCompany
@@ -125,4 +134,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps)(Company);
+  mapDispatchToProps
+)(companyReduxForm);
