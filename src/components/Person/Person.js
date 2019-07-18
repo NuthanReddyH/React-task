@@ -23,29 +23,27 @@ class Person extends Component {
       loading: false,
       personName: "",
       personAddress: "",
-      
       companyName: "Please Select",
       dropdownOpen: false
     };
-    this.PersonDetails = [];
-    this.companyName = "";
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   onFormSubmit(e) {
     e.preventDefault();
     const { personName, personAddress , companyName} = this.state;
-  
-    console.log(this.companyName);
-    let PersonDetails = { personName, personAddress, companyName };
-    let details = [...this.PersonDetails];
-    details.push(PersonDetails);
-    this.setState({
-      personName: "",
-      personAddress: ""
-    });
-    console.log(details);
-  this.props.addNewPerson(details);
+    const { companyList } = this.props;
+    let PersonDetails = { personName, personAddress };
+    companyList.forEach((element) => { 
+        if(element.companyName === companyName) {
+          element.employees.push(PersonDetails);
+        }
+      });
+      this.setState({
+        personName: "",
+        personAddress: "",
+        companyName: "Please Select"
+      });
   }
 
   toggle = () => {
@@ -67,24 +65,20 @@ class Person extends Component {
     });
   };
 
-  selectedEmployer = employer => {
-    console.log("emp",employer);
-    this.companyName = employer;
-    
-  };
-
+  
   dropdownList() {
     if(!this.props.list) {
       return null;
     }
   
-    return this.props.list.map((i) => {
-      return <DropdownItem onClick={this.select}>{i}</DropdownItem>
+    let ddList =this.props.list.map((i) => {
+      return <DropdownItem key={i} onClick={this.select}>{i}</DropdownItem>
     })
+
+    return <DropdownMenu>{ddList}</DropdownMenu>;
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="ccontainer">
         <Card>
@@ -123,9 +117,8 @@ class Person extends Component {
                 disabled={this.props.disabled}
               >
                 <DropdownToggle caret>{this.state.companyName}</DropdownToggle>
-                <DropdownMenu>
-                  {this.dropdownList()}
-                </DropdownMenu>
+                {this.dropdownList()}
+               
               </ButtonDropdown>
             </FormGroup>
             <Button className="form-group" type="submit" disabled={this.props.disabled}>
@@ -144,7 +137,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  personList: state.person.personList
+  companyList: state.company.companyData
 });
 
 export default connect(

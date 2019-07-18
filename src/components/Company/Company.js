@@ -20,7 +20,8 @@ class Company extends Component {
         companyName: "",
         address: "",
         revenue: "",
-        phone: ""
+        phone: "",
+        employees: []
       },
       
       companies: [],
@@ -40,7 +41,8 @@ class Company extends Component {
         companyName: "",
         address: "",
         revenue: "",
-        phone: ""
+        phone: "",
+        employees: []
       }
     })
     this.props.addNewCompany(this.companies);
@@ -53,7 +55,6 @@ class Company extends Component {
   };
 
   render() {
-    console.log("this.props",this.props.companyList);
     const { companyName, address, revenue, phone } = this.state.newCompany;
     return (
       <div className="ccontainer">
@@ -68,6 +69,7 @@ class Company extends Component {
                 id="companyName"
                 value={companyName}
                 onChange={this.handleChange}
+                
               />
             </FormGroup>
             <FormGroup>
@@ -78,6 +80,7 @@ class Company extends Component {
                 id="address"
                 value={address}
                 onChange={this.handleChange}
+                
               />
             </FormGroup>
             <FormGroup>
@@ -88,6 +91,7 @@ class Company extends Component {
                 id="revenue"
                 value={revenue}
                 onChange={this.handleChange}
+                
               />
             </FormGroup>
             <FormGroup>
@@ -98,6 +102,7 @@ class Company extends Component {
                 id="phone"
                 value={phone}
                 onChange={this.handleChange}
+                
               />
             </FormGroup>
             <Button className="form-group" type="submit">

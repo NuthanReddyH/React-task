@@ -5,6 +5,7 @@ import DisplayCompany from "../DisplayCompany.js/DisplayCompany.js";
 import Person from "../Person/Person.js";
 import { connect } from 'react-redux';
 
+
 class HomePage extends Component {
 
   render() {
@@ -14,7 +15,6 @@ class HomePage extends Component {
     const list = (this.props.companyList) && this.props.companyList.map((item,i) => {
         return item.companyName;
     });
-    console.log(list);
     return (
       <div className="some-page-wrapper">
         <div className="row">
@@ -35,7 +35,6 @@ class HomePage extends Component {
 
 const mapStateToProps = state => ({
   companyList: state.company.companyData,
-  personList: state.person.personList
 });
 
 export default connect(mapStateToProps)(HomePage);

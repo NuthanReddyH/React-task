@@ -1,17 +1,19 @@
-import { NEW_COMPANY } from "../actions/types";
+import { NEW_COMPANY, NEW_PERSON } from "../actions/types";
 
-const initialState = {
-    
-};
+const initialState = {};
+
 export default function(state = initialState, action) {
-  console.log(state);
-  switch (action.type) { 
-   
+  switch (action.type) {
     case NEW_COMPANY:
-            return {
-              ...state,
-              companyData: action.payload
-            };
+      return {
+        ...state,
+        companyData: action.payload
+      };
+    case NEW_PERSON:
+      return {
+        ...state,
+        personList: action.payload
+      };
     default:
       return state;
   }

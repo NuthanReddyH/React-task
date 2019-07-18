@@ -25,14 +25,8 @@ class CompanyDetails extends Component {
 
   
   render() {
-    const { company, employees} = this.props.location.state;
-    let employeeList = [];
-
-    for (let i = 0; i< employees.length; i++) {
-      if( company.companyName === employees[i].companyName) {
-              employeeList.push(employees[i]);
-      }
-    }
+    const { company } = this.props.location.state;
+    
     return (
       <div className="ccontainer">
         <Card>
@@ -41,13 +35,13 @@ class CompanyDetails extends Component {
                       <label><strong>Address : </strong></label> {company.address} <br/>
                       <label><strong>Revnue : </strong></label> {company.revenue}<br/>
                       <label><strong>Phone : </strong></label> {company.phone} <br />
-                      <label><strong>No of Employees : </strong></label> {employeeList.length}
+                      <label><strong>No of Employees : </strong></label> {company.employees.length}
                 </CardBody>
                 <CardFooter/>
         </Card>
         <Card>
             <CardHeader>Employees</CardHeader>
-           {this.renderCards(employeeList)}
+           {this.renderCards(company.employees)}
         </Card>
       </div>
     );
