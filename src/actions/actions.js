@@ -7,11 +7,11 @@ export const addNewCompany = (data) => dispatch => {
    });
 };
 
-export const addNewPerson = (data) => dispatch => {
-    dispatch( {
-         type: NEW_PERSON,
-         payload: data
-    });
- };
+// export const addNewPerson = (data) => dispatch => {
+//     dispatch( {
+//          type: NEW_PERSON,
+//          payload: data
+//     });
+//  };
 
 
