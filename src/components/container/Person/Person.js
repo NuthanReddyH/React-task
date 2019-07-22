@@ -14,7 +14,6 @@ import {
 } from "reactstrap";
 import "./Person.scss";
 import { connect } from 'react-redux';
-import { addNewPerson } from '../../actions/actions';
 import { Field, reduxForm } from "redux-form";
 import { validate } from './PersonValidation';
 
@@ -56,13 +55,6 @@ class Person extends Component {
       companyName: event.target.innerText
     });
   };
-
-  // handleChange = e => {
-  //   this.setState({
-  //     [e.target.name]: e.target.value
-  //   });
-  // };
-
   
   dropdownList() {
     if(!this.props.list) {

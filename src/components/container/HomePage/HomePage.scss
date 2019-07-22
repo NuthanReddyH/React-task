@@ -1,21 +1,23 @@
-.some-page-wrapper {
+
+@import '../../../variables';
+.pagewrapper {
     margin: 15px;
   }
   
   .row {
-    display: flex;
+    display: $display;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
   }
   
   .column-left {
-    display: flex;
+    display: $display;
     flex-direction: column;
     width: 80%
   }
   .column-right {
-    display: flex;
+    display: $display;
     flex-direction: column;
     width: 20%
   }
@@ -25,7 +27,7 @@
     height: 100px;
   }
   .cardDetails {
-    margin: 1rem;
+    margin: $margin;
   }
   
   

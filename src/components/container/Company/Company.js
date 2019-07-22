@@ -10,11 +10,11 @@ import {
 } from "reactstrap";
 import "./Company.scss";
 import { connect } from "react-redux";
-import { addNewCompany } from "../../actions/actions";
+import { addNewCompany } from "../../../actions/actions";
 import { Field, reduxForm } from "redux-form";
 import { validate } from './CompanyValidation';
 
-class Company extends Component {
+export class Company extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -66,8 +66,7 @@ class Company extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, submitting, companyList } = this.props;
-    console.log(companyList);
+    const { handleSubmit, pristine, submitting } = this.props;
     return (
       <div className="ccontainer">
         <Card>

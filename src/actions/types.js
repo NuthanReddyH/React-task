@@ -1,2 +1,3 @@
-export const NEW_COMPANY = "NEW_COMPANY";
-export const NEW_PERSON = "NEW_PERSON";
+export const ADD_COMPANY = "ADD_COMPANY";
+export const ADD_COMPANY_SUCCESS = "ADD_COMPANY_SUCCESS";
+export const ADD_COMPANY_FAILURE = "ADD_COMPANY_FAILURE";

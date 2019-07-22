@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`action creators creates ADD_COMPANY when adding a company was successful 1`] = `
+Array [
+  Object {
+    "data": Object {
+      "address": "410 Terry Ave Seattle,WA",
+      "companyName": "Amazon",
+      "employees": Array [],
+      "phone": "(022)-266-0000",
+      "revenue": "100000",
+    },
+    "type": "ADD_COMPANY",
+  },
+]
+`;
+
+exports[`action creators creates ADD_COMPANY when creating a to-do was successful 1`] = `
+Array [
+  Object {
+    "data": Object {
+      "address": "410 Terry Ave Seattle,WA",
+      "companyName": "Amazon",
+      "employees": Array [],
+      "phone": "(022)-266-0000",
+      "revenue": "100000",
+    },
+    "type": "ADD_COMPANY",
+  },
+]
+`;
+
+exports[`action creators dispatches correct action and payload 1`] = `
+Array [
+  Object {
+    "data": Object {
+      "address": "410 Terry Ave Seattle,WA",
+      "companyName": "Amazon",
+      "employees": Array [],
+      "phone": "(022)-266-0000",
+      "revenue": "100000",
+    },
+    "type": "ADD_COMPANY",
+  },
+  Object {
+    "data": Object {
+      "address": "410 Terry Ave Seattle,WA",
+      "companyName": "Amazon",
+      "employees": Array [],
+      "phone": "(022)-266-0000",
+      "revenue": "100000",
+    },
+    "type": "ADD_COMPANY",
+  },
+]
+`;
